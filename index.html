@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TFG Inspector</title>
+    <title>TFG</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -72,7 +72,7 @@
             display: block;
             width: 100%;
             padding: 10px 20px;
-            background-color: purple;
+            background-color: rgb(66, 0, 66);
             color: #fff;
             text-decoration: none;
             border-radius: 4px;
@@ -81,7 +81,18 @@
         }
 
         .btn:hover {
-            background-color: #7a0060;
+            background-color: #490039;
+        }
+        captureimageBTN.{
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: rgb(7, 0, 7);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
         }
 
         #capturedImageContainer {
@@ -95,13 +106,74 @@
             border-radius: 4px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            animation: zoom 0.3s;
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-group-inline {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-group-inline label {
+            width: auto;
+            margin-right: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="header">TFG Inspector</div>
-        <!-- Logo box with the logo image -->
+        <div class="header">TFG</div>
         <div class="logo-box">
             <img
                 src="data:image/png;base64,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">
@@ -126,19 +198,11 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="surname">Surname:</label>
-                <input type="text" id="surname" name="surname" required>
-            </div>
-            <div class="form-group">
                 <label for="category">Category:</label>
                 <select id="category" name="category" required>
                     <option value="">Select Category</option>
-                    <option value="Health & Safety">Health & Safety</option>
-                    <option value="Facility & Maintenance">Facility & Maintenance</option>
+                    <option value="Health and Safety">Health & Safety</option>
+                    <option value="Facility and Maintenance">Facility & Maintenance</option>
                     <option value="Housekeeping">Housekeeping</option>
                 </select>
             </div>
@@ -154,45 +218,95 @@
                 <textarea id="description" name="description" rows="4" required></textarea>
             </div>
             <div class="form-group">
+                <label for="assignee">Assignee:</label>
+                <select id="assignee" name="assignee" required>
+                    <option value="">Select Assignee</option>
+                    <option value="Munangiwa Ravhura">Munangiwa Ravhura</option>
+                    <option value="Mohao Mokolopa">Jane Smith</option>
+                    <option value="Alice Johnson">Alice Johnson</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="form-group" id="deadlineContainer">
+                <label for="deadlineDate">Deadline Date:</label>
+                <input type="date" id="deadlineDate" name="deadlineDate" required>
+            </div>
+            <div class="form-group" id="deadlineContainer">
+                <label for="deadlineTime">Deadline Time:</label>
+                <input type="time" id="deadlineTime" name="deadlineTime" required>
+            </div>
+            <div class="form-group">
                 <input type="submit" class="btn" value="Send Image">
             </div>
         </form>
     </div>
+    <input type="hidden" id="currentTime" name="currentTime">
+</div>
 
-    <script>
-        document.getElementById('image').addEventListener('change', function () {
-            var imageInput = document.getElementById('image');
-            if (imageInput.files && imageInput.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var capturedImageContainer = document.getElementById('capturedImageContainer');
-                    var capturedImage = document.createElement('img');
-                    capturedImage.setAttribute('src', e.target.result);
-                    capturedImage.setAttribute('id', 'capturedImage');
-                    capturedImageContainer.innerHTML = ''; // Clear previous images
-                    capturedImageContainer.appendChild(capturedImage);
-                };
-                reader.readAsDataURL(imageInput.files[0]);
+<script>
+    document.getElementById('image').addEventListener('change', function () {
+        var imageInput = document.getElementById('image');
+        if (imageInput.files && imageInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var capturedImageContainer = document.getElementById('capturedImageContainer');
+                var capturedImage = document.createElement('img');
+                capturedImage.setAttribute('src', e.target.result);
+                capturedImage.setAttribute('id', 'capturedImage');
+                capturedImageContainer.innerHTML = ''; // Clear previous images
+                capturedImageContainer.appendChild(capturedImage);
+            };
+            reader.readAsDataURL(imageInput.files[0]);
+        }
+    });
+
+    document.getElementById('imageForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var form = event.target;
+        var formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
             }
-        });
+        })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+            });
+    });
 
-        document.getElementById('imageForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            var form = event.target;
-            var formData = new FormData(form);
+    // Function to fetch and populate assignee data
+    function populateAssignees() {
+        // Example assignee data (replace with actual data retrieval logic)
+        var assigneeData = [
+            { name: "Munangiwa Ravhura", email: "munangiwa.chosen1@gmail.com" },
+            { name: "Mohao Mokolopa ", email: "c.mmokolopa@gmail.com" },
+            // Add more assignees as needed
+        ];
 
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-                .then(response => response.text())
-                .then(result => {
-                    alert(result);
-                })
+        // Select the assignee dropdown
+        var assigneeDropdown = document.getElementById("assignee");
+
+        // Populate select options
+        assigneeData.forEach(function(assignee) {
+            var option = document.createElement("option");
+            option.value = assignee.email; // Set value to the email
+            option.textContent = assignee.name;
+            assigneeDropdown.appendChild(option);
         });
+    }
+
+    // Call the function to populate assignees when the page loads
+    window.onload = function() {
+        populateAssignees();
+    };
+</script>
+</body>
+
+</html>
     </script>
 </body>
 
