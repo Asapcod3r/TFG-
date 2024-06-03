@@ -1,178 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TFG</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-
-        .container {
-            max-width: 80%;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .header {
-            text-align: center;
-            font-size: 27px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .form-group label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            resize: vertical;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 10px 20px;
-            background-color: rgb(66, 0, 66);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 4px;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn:hover {
-            background-color: #490039;
-        }
-    </style>
+    <title>Image Upload</title>
 </head>
-
 <body>
-    <div class="container">
-        <div class="header">TFG</div>
-        <form id="imageForm" enctype="multipart/form-data" method="post" action="http://10.32.184.32:5501">
-            <div class="form-group">
-                <label for="department">Department:</label>
-                <select id="department" name="department" required>
-                    <option value="">Select Department</option>
-                    <option value="Livingspace-Inbound">Livingspace-Inbound</option>
-                    <option value="Livingspace-Collections">Livingspace-Collections</option>
-                    <option value="Livingspace-Outbound">Livingspace-Outbound</option>
-                    <option value="Livingspace-Delivery">Livingspace-Delivery</option>
-                    <option value="Livingspace-Linehaul">Livingspace-Linehaul</option>
-                    <option value="Footwear-Inbound">Footwear-Inbound</option>
-                    <option value="Footwear-Inventory">Footwear-Inventory</option>
-                    <option value="Footwear-Picking">Footwear-Picking</option>
-                    <option value="Footwear-Dispatch">Footwear-Dispatch</option>
-                    <option value="Homeware">Homeware</option>
-                    <option value="Beauty">Beauty</option>
-                    <option value="RTT">RTT</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="category">Incident Category:</label>
-                <select id="category" name="category" required>
-                    <option value="">Select Category</option>
-                    <option value="Health and Safety">Health & Safety</option>
-                    <option value="Facility and Maintenance">Facility & Maintenance</option>
-                    <option value="Housekeeping">Housekeeping</option>
-                </select>
-            </div>
-            <div class="form-group capture-file-group">
-                <label for="image" class="btn">Capture Image</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="assignee">Assignee:</label>
-                <select id="assignee" name="assignee" required>
-                    <option value="">Select Assignee</option>
-                    <option value="munangi123@outlook.com">Munangiwa Ravhura</option>
-                    <option value="c.mmokolopa@gmail.com">Mohao Mokolopa</option>
-                </select>
-            </div>
-            <div class="form-group" id="deadlineContainer">
-                <label for="deadlineDate">Deadline Date:</label>
-                <input type="date" id="deadlineDate" name="deadlineDate" required>
-            </div>
-            <div class="form-group" id="deadlineContainer">
-                <label for="deadlineTime">Deadline Time:</label>
-                <input type="time" id="deadlineTime" name="deadlineTime" required>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn" value="Send Image">
-            </div>
-        </form>
-    </div>
-    <input type="hidden" id="currentTime" name="currentTime">
-</div>
-
-<script>
-    document.getElementById('image').addEventListener('change', function () {
-        var imageInput = document.getElementById('image');
-        if (imageInput.files && imageInput.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var capturedImageContainer = document.getElementById('capturedImageContainer');
-                var capturedImage = document.createElement('img');
-                capturedImage.setAttribute('src', e.target.result);
-                capturedImage.setAttribute('id', 'capturedImage');
-                capturedImageContainer.innerHTML = '';
-                capturedImageContainer.appendChild(capturedImage);
-            };
-            reader.readAsDataURL(imageInput.files[0]);
-        }
-    });
-
-    document.getElementById('imageForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        var form = event.target;
-        var formData = new FormData(form);
-
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-            .then(response => response.text())
-            .then(result => {
-                alert(result);
-            });
-    });
-</script>
+    <form action="http://10.32.184.32:5501" method="post" enctype="multipart/form-data">
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department"><br><br>
+        
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category"><br><br>
+        
+        <label for="assignee">Assignee:</label>
+        <input type="text" id="assignee" name="assignee"><br><br>
+        
+        <label for="deadlineDate">Deadline Date:</label>
+        <input type="date" id="deadlineDate" name="deadlineDate"><br><br>
+        
+        <label for="deadlineTime">Deadline Time:</label>
+        <input type="time" id="deadlineTime" name="deadlineTime"><br><br>
+        
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea><br><br>
+        
+        <label for="image">Select image:</label>
+        <input type="file" id="image" name="image"><br><br>
+        
+        <input type="submit" value="Upload Image">
+    </form>
 </body>
-
 </html>
