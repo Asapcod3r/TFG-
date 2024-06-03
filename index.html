@@ -4,31 +4,159 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 27px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 90%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="file"] {
+            display: none;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: rgb(66, 0, 66);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #490039;
+        }
+        
+        #capturedImageContainer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #capturedImage {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 <body>
-    <form action="http://10.32.184.32:5501" method="post" enctype="multipart/form-data">
-        <label for="department">Department:</label>
-        <input type="text" id="department" name="department"><br><br>
+    <div class="container">
+        <div class="header">Image Upload</div>
         
-        <label for="category">Category:</label>
-        <input type="text" id="category" name="category"><br><br>
-        
-        <label for="assignee">Assignee:</label>
-        <input type="text" id="assignee" name="assignee"><br><br>
-        
-        <label for="deadlineDate">Deadline Date:</label>
-        <input type="date" id="deadlineDate" name="deadlineDate"><br><br>
-        
-        <label for="deadlineTime">Deadline Time:</label>
-        <input type="time" id="deadlineTime" name="deadlineTime"><br><br>
-        
-        <label for="description">Description:</label>
-        <textarea id="description" name="description"></textarea><br><br>
-        
-        <label for="image">Select image:</label>
-        <input type="file" id="image" name="image"><br><br>
-        
-        <input type="submit" value="Upload Image">
-    </form>
+        <form action="http://10.32.184.32:5501" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <select id="department" name="department">
+                    <option value="">Select Department</option>
+                    <option value="Livingspace-Inbound">Livingspace-Inbound</option>
+                    <option value="Livingspace-Collections">Livingspace-Collections</option>
+                    <option value="Livingspace-Outbound">Livingspace-Outbound</option>
+                    <option value="Livingspace-Delivery">Livingspace-Delivery</option>
+                    <option value="Livingspace-Linehaul">Livingspace-Linehaul</option>
+                    <option value="Footwear-Inbound">Footwear-Inbound</option>
+                    <option value="Footwear-Inventory">Footwear-Inventory</option>
+                    <option value="Footwear-Picking">Footwear-Picking</option>
+                    <option value="Footwear-Dispatch">Footwear-Dispatch</option>
+                    <option value="Homeware">Homeware</option>
+                    <option value="Beauty">Beauty</option>
+                    <option value="RTT">RTT</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="">Select Category</option>
+                    <option value="Health and Safety">Health & Safety</option>
+                    <option value="Facility and Maintenance">Facility & Maintenance</option>
+                    <option value="Housekeeping">Housekeeping</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="assignee">Assignee:</label>
+                <select id="assignee" name="assignee">
+                    <option value="">Select Assignee</option>
+                    <option value="munangi123@outlook.com">Munangiwa Ravhura</option>
+                    <option value="c.mmokolopa@gmail.com">Mohao Mokolopa</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="deadlineDate">Deadline Date:</label>
+                <input type="date" id="deadlineDate" name="deadlineDate">
+            </div>
+            <div class="form-group">
+                <label for="deadlineTime">Deadline Time:</label>
+                <input type="time" id="deadlineTime" name="deadlineTime">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            <div class="form-group capture-file-group">
+                <label for="image" class="btn">Capture Image</label>
+                <input type="file" id="image" name="image" accept="image/*" capture="environment">
+            </div>
+            <div class="form-group" id="capturedImageContainer" style="display: none;">
+                <img id="capturedImage" src="#" alt="Captured Image">
+            </div>
+            <input type="submit" class="btn" value="Upload Image">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('image').addEventListener('change', function () {
+            var imageInput = document.getElementById('image');
+            if (imageInput.files && imageInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var capturedImageContainer = document.getElementById('capturedImageContainer');
+                    var capturedImage = document.getElementById('capturedImage');
+                    capturedImage.setAttribute('src', e.target.result);
+                    capturedImageContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            }
+        });
+    </script>
 </body>
 </html>
