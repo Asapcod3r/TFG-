@@ -32,22 +32,20 @@
             margin-bottom: 15px;
         }
 
-
-                .logo-box {
+        .logo-box {
             margin-top: 20px;
             border: 1px solid #ccc;
-            padding: 5px; /* Smaller padding */
+            padding: 5px;
             border-radius: 8px;
-            background-color: #fff;
+            background-color: #000000;
             display: inline-block;
             border-color: black;
         }
 
         .logo-box img {
-            max-width: 80px; /* Smaller maximum width */
-            max-height: 80px; /* Smaller maximum height */
+            max-width: 100px;
+            max-height: 100px;
         }
-        
 
         .form-group label {
             font-weight: bold;
@@ -85,6 +83,7 @@
         }
         
         #capturedImageContainer {
+            position: relative;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -96,19 +95,114 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
 
-        
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
 
+        .arrow.left {
+            left: 10px;
+        }
+
+        .arrow.right {
+            right: 10px;
+        }
+
+        .image-count {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .voice-note-group {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            justify-content: left;
+        }
+
+        .voice-note-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-right: 10px;
+            padding: 10px;
+            border: 2px solid rgb(66, 0, 66);
+            border-radius: 4px;
+            background-color: rgb(66, 0, 66);
+            color: white;
+        }
+
+        .voice-note-label img {
+            margin-right: 8px;
+        }
+
+        .voice-note-label input {
+            display: none;
+        }
+
+        .audio-container {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .audio-container audio {
+            margin-left: 10px;
+            max-width: 200px;
+        }
+
+        .audio-container img {
+            cursor: pointer;
+        }
+
+        .capture-image-group {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            justify-content: left;
+        }
+
+        .capture-image-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-right: 10px;
+            padding: 10px;
+            border: 2px solid rgb(66, 0, 66);
+            border-radius: 4px;
+            background-color: rgb(66, 0, 66);
+            color: white;
+        }
+
+        .capture-image-label img {
+            margin-right: 8px;
+        }
+
+        .capture-image-label input {
+            display: none;
+        }
+
+        .h4 {
+            background-color: #490039;
+            color: #490039;
+            font-size: medium;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">TFG</div>
         <div class="logo-box">
-            <img
-                src="data:image/png;base64,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">
+            <img src="http://res.cloudinary.com/dwmwpmrpo/image/upload/v1717485298/lgwc3mxbpiaui9jqkmyc.png">
         </div>
-      
-        
+          <h4></h4>
         <form action="http://10.32.184.32:5501" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="department">Department:</label>
@@ -137,17 +231,34 @@
                     <option value="Housekeeping">Housekeeping</option>
                 </select>
             </div>
-          
+
             <div class="form-group capture-file-group">
-                <label for="image" class="btn">Capture Image</label>
-                <input type="file" id="image" name="image" accept="image/*" capture="environment">
+                <label for="image" class="btn">
+                    <img src="http://res.cloudinary.com/dwmwpmrpo/image/upload/v1717494277/dunujgvsbgp7hlnccwxl.png" alt="Camera Icon" width="20" height="20">
+                </label>
+                <input type="file" id="image" name="image" accept="image/*" capture="environment" multiple>
             </div>
+            
             <div class="form-group" id="capturedImageContainer" style="display: none;">
+                <button class="arrow left" onclick="showPreviousImage(event)">&#9664;</button>
                 <img id="capturedImage" src="#" alt="Captured Image">
+                <button class="arrow right" onclick="showNextImage(event)">&#9654;</button>
+                <div class="image-count" id="imageCount"></div>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea id="description" name="description"></textarea>
+            </div>
+            <!-- New voice note attachment section -->
+            <div class="form-group voice-note-group">
+                <label for="voiceNote" class="voice-note-label">
+                    <img src="http://res.cloudinary.com/dwmwpmrpo/image/upload/v1717484931/skr2c8jdi61turau3x6k.jpg" alt="Microphone Icon" width="20" height="20">
+                </label>
+                <input type="file" id="voiceNote" name="voiceNote" accept="audio/*">
+                <div id="audioContainer" class="audio-container" style="display: none;">
+                    <img src="http://res.cloudinary.com/dwmwpmrpo/image/upload/v1717487121/aups3uymbo6ubehhvq0v.png" alt="Play Icon" width="20" height="20">
+                    <audio id="audioPreview" controls style="display: none;"></audio>
+                </div>
             </div>
             <div class="form-group">
                 <label for="assignee">Assignee:</label>
@@ -155,9 +266,14 @@
                     <option value="">Select Assignee</option>
                     <option value="munangi123@outlook.com">Munangiwa Ravhura</option>
                     <option value="c.mmokolopa@gmail.com">Mohao Mokolopa</option>
+                    <option value="outlook_039355F5086AEE44@outlook.com">Micheal Smith</option>
                 </select>
             </div>
-      
+
+            <div class="form-group">
+                <h4>Deadline</h4>
+            </div>
+
             <div class="form-group">
                 <label for="deadlineDate">Deadline Date:</label>
                 <input type="date" id="deadlineDate" name="deadlineDate">
@@ -167,22 +283,84 @@
                 <input type="time" id="deadlineTime" name="deadlineTime">
             </div>
          
-            <input type="submit" class="btn" value="Upload Incident ">
+            <input type="submit" class="btn" value="Upload Incident">
         </form>
     </div>
 
     <script>
-        document.getElementById('image').addEventListener('change', function () {
-            var imageInput = document.getElementById('image');
-            if (imageInput.files && imageInput.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var capturedImageContainer = document.getElementById('capturedImageContainer');
-                    var capturedImage = document.getElementById('capturedImage');
-                    capturedImage.setAttribute('src', e.target.result);
-                    capturedImageContainer.style.display = 'block';
-                };
-                reader.readAsDataURL(imageInput.files[0]);
+        const imageInput = document.getElementById('image');
+        const capturedImageContainer = document.getElementById('capturedImageContainer');
+        const capturedImage = document.getElementById('capturedImage');
+        const imageCount = document.getElementById('imageCount');
+        let images = [];
+        let currentIndex = 0;
+
+        imageInput.addEventListener('change', function() {
+            images = Array.from(imageInput.files);
+            if (images.length > 0) {
+                displayImage(images[0]);
+                capturedImageContainer.style.display = 'block';
+                updateImageCount();
+            }
+        });
+
+        function displayImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                capturedImage.setAttribute('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateImageCount() {
+            imageCount.textContent = `${currentIndex + 1} / ${images.length}`;
+        }
+
+        function showPreviousImage(event) {
+            event.preventDefault();
+            if (currentIndex > 0) {
+                currentIndex--;
+                displayImage(images[currentIndex]);
+                updateImageCount();
+            }
+        }
+
+        function showNextImage(event) {
+            event.preventDefault();
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                displayImage(images[currentIndex]);
+                updateImageCount();
+            }
+        }
+
+        document.querySelector('.voice-note-label').addEventListener('click', function () {
+            document.getElementById('voiceNote').click();
+        });
+
+        document.getElementById('voiceNote').addEventListener('change', function () {
+            var voiceNoteInput = document.getElementById('voiceNote');
+            var audioContainer = document.getElementById('audioContainer');
+            var audioPreview = document.getElementById('audioPreview');
+            var playIcon = audioContainer.querySelector('img');
+
+            if (voiceNoteInput.files && voiceNoteInput.files[0]) {
+                var audioFile = voiceNoteInput.files[0];
+                var url = URL.createObjectURL(audioFile);
+                audioPreview.setAttribute('src', url);
+                audioPreview.style.display = 'block';
+                audioContainer.style.display = 'flex';
+
+                playIcon.addEventListener('click', function () {
+                    if (audioPreview.paused) {
+                        audioPreview.play();
+                    } else {
+                        audioPreview.pause();
+                    }
+                });
+            } else {
+                audioPreview.style.display = 'none';
+                audioContainer.style.display = 'none';
             }
         });
     </script>
