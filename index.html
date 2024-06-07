@@ -202,8 +202,8 @@
         <div class="logo-box">
             <img src="http://res.cloudinary.com/dwmwpmrpo/image/upload/v1717485298/lgwc3mxbpiaui9jqkmyc.png">
         </div>
-        <h4></h4>
-        <form action="http://7.0.156.128:8080" method="post" enctype="multipart/form-data">
+          <h4></h4>
+        <form action="http://7.4.144.107:8443" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="department">Department:</label>
                 <select id="department" name="department">
@@ -255,12 +255,114 @@
                     <img src="http://res.cloudinary.com/dwmwpmrpo/image/upload/v1717484931/skr2c8jdi61turau3x6k.jpg" alt="Microphone Icon" width="20" height="20">
                 </label>
                 <input type="file" id="voiceNote" name="voiceNote" accept="audio/*">
-                <div id="audioContainer" class="audio-container">
-                    <!-- Audio preview will be added here by JavaScript -->
+                <div id="audioContainer" class="audio-container" style="display: none;">
+                    <img src="http://res.cloudinary.com/dwmwpmrpo/image/upload/v1717487121/aups3uymbo6ubehhvq0v.png" alt="Play Icon" width="20" height="20">
+                    <audio id="audioPreview" controls style="display: none;"></audio>
                 </div>
             </div>
-            <button type="submit" class="btn">Submit</button>
+            <div class="form-group">
+                <label for="assignee">Assignee:</label>
+                <select id="assignee" name="assignee">
+                    <option value="">Select Assignee</option>
+                    <option value="munangi123@outlook.com">Munangiwa Ravhura</option>
+                    <option value="c.mmokolopa@gmail.com">Mohao Mokolopa</option>
+                    <option value="outlook_039355F5086AEE44@outlook.com">Micheal Smith</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <h4>Deadline</h4>
+            </div>
+
+            <div class="form-group">
+                <label for="deadlineDate">Deadline Date:</label>
+                <input type="date" id="deadlineDate" name="deadlineDate">
+            </div>
+            <div class="form-group">
+                <label for="deadlineTime">Deadline Time:</label>
+                <input type="time" id="deadlineTime" name="deadlineTime">
+            </div>
+         
+            <input type="submit" class="btn" value="Upload Incident">
         </form>
     </div>
+
+    <script>
+        const imageInput = document.getElementById('image');
+        const capturedImageContainer = document.getElementById('capturedImageContainer');
+        const capturedImage = document.getElementById('capturedImage');
+        const imageCount = document.getElementById('imageCount');
+        let images = [];
+        let currentIndex = 0;
+
+        imageInput.addEventListener('change', function() {
+            images = Array.from(imageInput.files);
+            if (images.length > 0) {
+                displayImage(images[0]);
+                capturedImageContainer.style.display = 'block';
+                updateImageCount();
+            }
+        });
+
+        function displayImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                capturedImage.setAttribute('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateImageCount() {
+            imageCount.textContent = `${currentIndex + 1} / ${images.length}`;
+        }
+
+        function showPreviousImage(event) {
+            event.preventDefault();
+            if (currentIndex > 0) {
+                currentIndex--;
+                displayImage(images[currentIndex]);
+                updateImageCount();
+            }
+        }
+
+        function showNextImage(event) {
+            event.preventDefault();
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                displayImage(images[currentIndex]);
+                updateImageCount();
+            }
+        }
+
+        document.querySelector('.voice-note-label').addEventListener('click', function () {
+            document.getElementById('voiceNote').click();
+        });
+
+        document.getElementById('voiceNote').addEventListener('change', function () {
+            var voiceNoteInput = document.getElementById('voiceNote');
+            var audioContainer = document.getElementById('audioContainer');
+            var audioPreview = document.getElementById('audioPreview');
+            var playIcon = audioContainer.querySelector('img');
+
+            if (voiceNoteInput.files && voiceNoteInput.files[0]) {
+                var audioFile = voiceNoteInput.files[0];
+                var url = URL.createObjectURL(audioFile);
+                audioPreview.setAttribute('src', url);
+                audioPreview.style.display = 'block';
+                audioContainer.style.display = 'flex';
+
+                playIcon.addEventListener('click', function () {
+                    if (audioPreview.paused) {
+                        audioPreview.play();
+                    } else {
+                        audioPreview.pause();
+                    }
+                });
+            } else {
+                audioPreview.style.display = 'none';
+                audioContainer.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
