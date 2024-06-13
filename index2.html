@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reply to Incident</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #logo {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        #logo img {
+            max-width: 150px;
+            max-height: 75px;
+        }
+        #replyForm {
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #replyForm input[type="text"],
+        #replyForm textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        #replyForm input[type="file"] {
+            display: none;
+        }
+        #captureImageButton {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color:  #520569;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            text-align: center;
+            cursor: pointer;
+        }
+        #captureImageButton:hover {
+            background-color:  #520569;
+        }
+        #replyForm button {
+            padding: 10px 15px;
+            background-color:  #520569;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #replyForm button:hover {
+            background-color:  #520569;
+        }
+    </style>
+</head>
+<body>
+    <div id="logo">
+        <img src="http://res.cloudinary.com/dwmwpmrpo/image/upload/v1717485298/lgwc3mxbpiaui9jqkmyc.png" alt="">
+    </div>
+    <form id="replyForm" enctype="multipart/form-data" method="post" action="http://10.32.184.32:8080">
+        <h2>Incident Assignment submission
+
+        </h2>
+        <label for="referenceNumber">Reference Number:</label>
+        <input type="text" id="referenceNumber" name="referenceNumber" required>
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment" required></textarea>
+        <label for="replyImage"></label>
+        <input type="file" id="replyImage" name="image" accept="image/*" capture="camera" required>
+        <label id="captureImageButton" for="replyImage">Capture Image</label>
+        <button type="submit">Submit Reply</button>
+    </form>
+</body>
+</html>
